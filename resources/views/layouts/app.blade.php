@@ -16,7 +16,8 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{asset('adminv')}}/plugins/fontawesome-free/css/all.min.css">
+  <!-- <link rel="stylesheet" href="{{asset('adminv')}}/plugins/fontawesome-free/css/all.min.css"> -->
+  <link rel="stylesheet" href="{{asset('adminv')}}/plugins/fontawesome/css/font-awesome.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('adminv')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="{{asset('adminv')}}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -40,7 +41,7 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-bars"></i></a>
       </li>
 
     </ul>

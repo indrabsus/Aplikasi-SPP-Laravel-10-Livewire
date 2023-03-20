@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id('id_bayar');
             $table->string('nis');
             $table->string('bulan');
+            $table->string('tahun');
             $table->bigInteger('makan');
             $table->bigInteger('spp');
             $table->bigInteger('subsidi');
+            $table->bigInteger('total');
             $table->enum('acc', ['y','n']);
             $table->timestamps();
         });
