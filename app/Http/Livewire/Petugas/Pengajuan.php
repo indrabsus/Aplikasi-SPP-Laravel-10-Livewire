@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Petugas;
 
 use App\Models\Payment;
+use App\Models\Request;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -64,7 +65,14 @@ class Pengajuan extends Component
             session()->flash('gagal', 'Terdeteksi data ganda');
             $this->dispatchBrowserEvent('closeModal');
         }
-
-        
+    }
+    public function k_hapus($id){
+        $data = Payment::where('id_bayar',$id)->first();
+        $this->id_bayar = $data->id_bayar;
+    }
+    public function delete(){
+        Payment::where('id_bayar', $this->id_bayar)->delete();
+        session()->flash('sukses', 'Data berhasil dihapus!');
+        $this->dispatchBrowserEvent('closeModal');
     }
 }

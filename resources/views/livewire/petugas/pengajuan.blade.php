@@ -47,7 +47,9 @@
             <th>Orang Tua</th>
             <th>ACC</th>
             <th>Tgl Pengajuan</th>
+            @if (Auth::user()->level == 'admin' || Auth::user()->level == 'petugas')
             <th>Aksi</th>
+            @endif
         </tr>
         <?php $no=1;?>
         @foreach ($data as $d)
@@ -65,10 +67,13 @@
                     @else
                     <i class="fa fa-times"></i>
                 @endif</td>
-                <td>{{date('d/m/y', strtotime($d->created_at))}}</td>
+                <td>{{date('d/m/y', strtotime($d->tgl_pengajuan))}}</td>
+                @if (Auth::user()->level == 'admin' || Auth::user()->level == 'petugas')
                 <td><a class="btn btn-success btn-sm mb-1" data-toggle="modal" data-target="#k_acc" wire:click="k_acc({{ $d->id_bayar }})"><i class="fa fa-check"></i></a>
-                    <a class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#k_hapus" wire:click="k_hapus({{ $d->id_pengajuan }})"><i class="fa fa-trash"></i></a>
-                </td>
+                  <a class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#k_hapus" wire:click="k_hapus({{ $d->id_bayar }})"><i class="fa fa-trash"></i></a>
+              </td>  
+                @endif
+                
             </tr>
         @endforeach
     </table>

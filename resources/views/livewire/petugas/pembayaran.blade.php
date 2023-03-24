@@ -6,6 +6,13 @@
     {{session('sukses')}}
     </div>
     @endif
+    @if(session('gagal'))
+    <div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <h5><i class="icon fa fa-times"></i> Gagal!</h5>
+    {{session('gagal')}}
+    </div>
+    @endif
     <div class="row">
         <div class="col-lg-2 mb-1">
             <select wire:model="caribulan" class="form-control">
@@ -79,7 +86,10 @@
             <th>Total</th>
             <th>ACC</th>
             <th>Tgl</th>
+            @if (Auth::user()->level == 'admin' || Auth::user()->level == 'owner')
             <th>Aksi</th>
+            @endif
+            
         </tr>
         @foreach ($data as $d)
             <tr>
@@ -96,9 +106,11 @@
                     <i class="fa fa-times-circle" aria-hidden="true"></i>
                 @endif</td>
                 <td>{{date('d/m/y', strtotime($d->created_at))}}</td>
+                @if (Auth::user()->level == 'admin' || Auth::user()->level == 'owner')
                 <td><a class="btn btn-success btn-sm mb-1" data-toggle="modal" data-target="#k_bayar" wire:click="k_bayar({{ $d->id_bayar }})"><i class="fa fa-edit"></i></a>
                     <a class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#k_hapus" wire:click="k_hapus({{ $d->id_bayar }})"><i class="fa fa-trash"></i></a>
                 </td>
+                @endif
             </tr>
         @endforeach
     </table>
@@ -302,7 +314,7 @@
                   </div>
                   <div class="form-group">
                     <label for="">ACC</label>
-                    <select wire:model="acc" class="form-control">
+                    <select wire:model="acc" class="form-control" {{$acc == 'y' ? 'disabled' : ''}}>
                         <option value="">Pilih ACC</option>
                         <option value="y">ACC</option>
                         <option value="n">Tidak</option>

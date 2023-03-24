@@ -226,7 +226,8 @@ class StudentMgmt extends Component
         $data2 = [
             'kelompok' => $this->kelompok,
             'org_tua' => $this->ortu,
-            'id_bayar' => $bayar->id_bayar
+            'id_bayar' => $bayar->id_bayar,
+            'tgl_pengajuan' => now()
         ];
         Request::create($data2);
         $this->clearForm();

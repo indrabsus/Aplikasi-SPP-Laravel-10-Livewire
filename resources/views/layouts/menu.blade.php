@@ -95,6 +95,59 @@
         </a>
       </li>
       @endif
+      @if (Auth::user()->level == 'owner')
+      <li class="nav-item">
+        <a href="{{route('indexowner')}}" class="nav-link {{ Route::currentRouteName() == 'indexowner' ? 'active':''}}">
+          <i class="nav-icon fa fa-home"></i>
+          <p>
+            Dashboard
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{route('owner-pembayaran')}}" class="nav-link {{ Route::currentRouteName() == 'owner-pembayaran' ? 'active':''}}">
+          <i class="nav-icon fa fa-money"></i>
+          <p>
+            Pembayaran
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{route('owner-pengajuan')}}" class="nav-link {{ Route::currentRouteName() == 'owner-pengajuan' ? 'active':''}}">
+          <i class="nav-icon fa fa-question-circle"></i>
+          <p>
+            Pengajuan
+          </p>
+        </a>
+      </li>
+      @endif
+
+      @if (Auth::user()->level == 'majelis')
+      <li class="nav-item">
+        <a href="{{route('indexmajelis')}}" class="nav-link {{ Route::currentRouteName() == 'indexmajelis' ? 'active':''}}">
+          <i class="nav-icon fa fa-home"></i>
+          <p>
+            Dashboard
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{route('majelis-studentmgmt')}}" class="nav-link {{ Route::currentRouteName() == 'majelis-studentmgmt' ? 'active':''}}">
+          <i class="nav-icon fa fa-address-book"></i>
+          <p>
+            Siswa Manajemen
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{route('majelis-pengajuan')}}" class="nav-link {{ Route::currentRouteName() == 'majelis-pengajuan' ? 'active':''}}">
+          <i class="nav-icon fa fa-question-circle"></i>
+          <p>
+            Pengajuan
+          </p>
+        </a>
+      </li>
+      @endif
 
 
     <li class="nav-item">

@@ -42,6 +42,7 @@ class Pembayaran extends Component
         $this->subsidi = '';
     }
     public function k_bayar($id){
+        
         $data = Payment::where('id_bayar', $id)->first();
         $this->id_bayar = $data->id_bayar;
         $this->nis = $data->nis;
@@ -62,17 +63,31 @@ class Pembayaran extends Component
             'acc' => 'required'
         ]);
 
-        Payment::where('id_bayar', $this->id_bayar)->update([
-            'bulan' => $this->bulan,
-            'tahun' => $this->tahun,
-            'subsidi' => $this->subsidi,
-            'spp' => $this->spp,
-            'total' => $this->makan + $this->spp - $this->subsidi,
-            'acc' => $this->acc
-        ]);
-        $this->clearForm();
-        session()->flash('sukses', 'Data berhasil diedit');
-        $this->dispatchBrowserEvent('closeModal');
+        $hitung = Payment::where('nis', $this->nis)
+        ->where('bulan', $this->bulan)
+        ->where('tahun', $this->tahun)
+        ->where('acc', 'y')
+        ->count();
+
+        if($hitung < 1){
+            Payment::where('id_bayar', $this->id_bayar)->update([
+                'bulan' => $this->bulan,
+                'tahun' => $this->tahun,
+                'subsidi' => $this->subsidi,
+                'spp' => $this->spp,
+                'total' => $this->makan + $this->spp - $this->subsidi,
+                'acc' => $this->acc
+            ]);
+            $this->clearForm();
+            session()->flash('sukses', 'Data berhasil diedit');
+            $this->dispatchBrowserEvent('closeModal');
+        } else {
+            $this->clearForm();
+            session()->flash('gagal', 'Terdeteksi data ganda');
+            $this->dispatchBrowserEvent('closeModal');
+        }
+
+        
     }
     public function k_hapus($id){
         $data = Payment::where('id_bayar',$id)->first();
