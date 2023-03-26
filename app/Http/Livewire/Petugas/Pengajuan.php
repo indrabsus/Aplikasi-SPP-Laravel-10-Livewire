@@ -48,6 +48,7 @@ class Pengajuan extends Component
         $hitung = Payment::where('nis', $this->nis)
         ->where('bulan', $this->bulan)
         ->where('tahun', $this->tahun)
+        ->where('acc', 'y')
         ->count();
 
         if($hitung<1){
