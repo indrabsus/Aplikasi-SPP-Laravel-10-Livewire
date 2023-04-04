@@ -17,6 +17,10 @@ class AuthController extends Controller
             'username' => 'required',
             'password' => 'required'
         ]);
+
+        
+        
+
         if(Auth::attempt($auth)){
             Auth::user();
             return redirect()->route('index'.Auth::user()->level);

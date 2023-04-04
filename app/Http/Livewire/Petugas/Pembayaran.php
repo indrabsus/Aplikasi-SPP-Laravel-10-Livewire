@@ -19,6 +19,7 @@ class Pembayaran extends Component
     public $result = 10;
     public $caribulan = '';
     public $caritgl = '';
+    public $caritahun = '';
     protected $paginationTheme = 'bootstrap';
     public function render()
     {
@@ -28,6 +29,7 @@ class Pembayaran extends Component
         ->where('payments.nis', 'like','%'.$this->carinis.'%')
         ->where('payments.acc', 'like','%'.$this->acc2.'%')
         ->where('payments.bulan', 'like','%'.$this->caribulan.'%')
+        ->where('payments.tahun', 'like','%'.$this->caritahun.'%')
         ->where('payments.created_at', 'like','%'.$this->caritgl.'%')
         ->orderBy('id_bayar', 'desc')
         ->paginate($this->result);

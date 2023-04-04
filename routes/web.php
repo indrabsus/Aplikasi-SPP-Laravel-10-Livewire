@@ -16,7 +16,7 @@ Route::get('/',[FrontController::class,'cek'])->name('cek');
 Route::post('/ceknis',[FrontController::class,'ceknis'])->name('ceknis');
 Route::post('/bayar',[FrontController::class,'bayar'])->name('bayar');
 
-Route::post('proseslogin', [AuthController::class,'login'])->name('login');
+Route::post('/proseslogin', [AuthController::class,'login'])->name('login');
 Route::get('logout',[AuthController::class,'logout'])->name('logout');
 Route::group(['middleware' => ['auth']], function(){
     Route::group(['middleware' => ['cekrole:admin']], function(){
