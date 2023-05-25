@@ -45,8 +45,13 @@ class Pembayaran extends Component
     }
     public function k_bayar($id){
         
-        $data = Payment::where('id_bayar', $id)->first();
+        $data = DB::table('students')
+        ->leftJoin('payments','payments.nis', 'students.nis')
+        ->where('id_bayar', $id)
+        ->first();
         $this->id_bayar = $data->id_bayar;
+        $this->nama = $data->nama;
+        $this->status = $data->status;
         $this->nis = $data->nis;
         $this->bulan = $data->bulan;
         $this->tahun = $data->tahun;
@@ -61,6 +66,7 @@ class Pembayaran extends Component
             'bulan' => 'required',
             'tahun' => 'required',
             'spp' => 'required',
+            'makan' => 'required',
             'subsidi' => 'required',
             'acc' => 'required'
         ]);
@@ -71,26 +77,19 @@ class Pembayaran extends Component
         ->where('acc', 'y')
         ->count();
 
-        if($hitung < 1){
             Payment::where('id_bayar', $this->id_bayar)->update([
-                'bulan' => $this->bulan,
-                'tahun' => $this->tahun,
                 'subsidi' => $this->subsidi,
                 'spp' => $this->spp,
+                'makan' => $this->makan,
                 'total' => $this->makan + $this->spp - $this->subsidi,
                 'acc' => $this->acc
             ]);
             $this->clearForm();
             session()->flash('sukses', 'Data berhasil diedit');
             $this->dispatchBrowserEvent('closeModal');
-        } else {
-            $this->clearForm();
-            session()->flash('gagal', 'Terdeteksi data ganda');
-            $this->dispatchBrowserEvent('closeModal');
         }
 
         
-    }
     public function k_hapus($id){
         $data = Payment::where('id_bayar',$id)->first();
         $this->id_bayar = $data->id_bayar;

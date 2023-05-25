@@ -10,7 +10,7 @@ use Livewire\WithPagination;
 
 class Pengajuan extends Component
 {
-    public $bulan, $tahun, $subsidi, $nis, $id_bayar;
+    public $bulan, $tahun, $subsidi, $nis, $id_bayar, $status, $nama, $spp, $makan;
     use WithPagination;
     public $cari = '';
     public $result = 10;
@@ -29,7 +29,11 @@ class Pengajuan extends Component
         ->section('content');
     }
     public function k_acc($id){
-        $data = Payment::where('id_bayar', $id)->first();
+        $data = DB::table('students')
+        ->leftJoin('payments','payments.nis', 'students.nis')
+        ->where('id_bayar', $id)
+        ->first();
+
         $this->bulan = $data->bulan;
         $this->tahun = $data->tahun;
         $this->makan = $data->makan;
@@ -37,6 +41,8 @@ class Pengajuan extends Component
         $this->subsidi = $data->subsidi;
         $this->nis = $data->nis;
         $this->id_bayar = $data->id_bayar;
+        $this->nama = $data->nama;
+        $this->status = $data->status;
     }
     public function prosesacc(){
         $this->validate([
@@ -56,6 +62,8 @@ class Pengajuan extends Component
                 'bulan' => $this->bulan,
                 'tahun' => $this->tahun,
                 'subsidi' => $this->subsidi,
+                'spp' => $this->spp,
+                'makan' => $this->makan,
                 'total' => $this->makan + $this->spp - $this->subsidi,
                 'acc' => 'y'
             ];

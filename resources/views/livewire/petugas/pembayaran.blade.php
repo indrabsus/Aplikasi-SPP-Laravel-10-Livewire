@@ -252,11 +252,30 @@
                         @enderror
                     </div>
                   </div>
+                  <div class="row">
+               <div class="col">
+                 <div class="form-group">
+                   <label for="">Nama</label>
+                   <input type="text" wire:model="nama" class="form-control" readonly>
+                   <div class="text-danger">
+                       @error('nis')
+                           {{$message}}
+                       @enderror
+                   </div>
+                 </div>
+               </div>
+               <div class="col">
+                 <div class="form-group">
+                   <label for="">Status</label>
+                   <input type="text" value="{{$status == 'fd' ? 'Fullday' : 'Boarding'}}" class="form-control" readonly>
+                 </div>
+               </div>
+              </div>
                 </div>
                </div>
                 <div class="form-group">
                   <label for="">Bulan</label>
-                  <select wire:model="bulan" class="form-control">
+                  <select wire:model="bulan" class="form-control" disabled>
                       <option value="">Pilih Bulan</option>
                       <option value="Januari">Januari</option>
                       <option value="Februari">Februari</option>
@@ -279,7 +298,7 @@
                 </div>
                 <div class="form-group">
                   <label for="">Tahun</label>
-                  <select wire:model="tahun" class="form-control">
+                  <select wire:model="tahun" class="form-control" disabled>
                       <option value="">Pilih Tahun</option>
                       <option value="{{date('Y')-3}}">{{date('Y')-3}}</option>
                       <option value="{{date('Y')-2}}">{{date('Y')-2}}</option>
@@ -299,6 +318,15 @@
                     <input type="number" class="form-control" placeholder="Isi Manual" wire:model='spp'>
                     <div class="text-danger">
                       @error('spp')
+                          {{$message}}
+                      @enderror
+                   </div>
+                </div>
+                <div class="form-group">
+                    <label for="">Makan</label>
+                    <input type="number" class="form-control" wire:model='makan'>
+                    <div class="text-danger">
+                      @error('makan')
                           {{$message}}
                       @enderror
                    </div>

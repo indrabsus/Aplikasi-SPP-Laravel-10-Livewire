@@ -30,12 +30,13 @@ class FrontController extends Controller
             'nis' => $request->nis,
             'bulan' => $request->bulan,
             'tahun' => $request->tahun,
-            'makan' => $request->status == 'bs' ? 375000 : 200000,
-            'spp' => 500000,
+            'makan' => 0,
+            'spp' => 0,
             'subsidi' => 0,
-            'total' => $request->status == 'bs' ? 875000 : 700000,
+            'total' => 0,
             'acc' => 'n'
         ]);
-        return redirect()->route('cek')->with('sukses','Pembayaran bulan '.$request->bulan.' dan tahun '.$request->tahun.' berhasil diajukan, silakan lakukan pembayaran di Sekolah atau hubungi operator');
+        
+        return redirect()->route('cek')->with("sukses","Pembayaran bulan ".$request->bulan." dan tahun ".$request->tahun." berhasil diajukan, silakan lakukan pembayaran di Sekolah atau hubungi operator");
     }
 }

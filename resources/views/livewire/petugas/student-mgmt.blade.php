@@ -289,6 +289,17 @@
                   </div>
                 </div>
                </div>
+               <div class="col">
+                 <div class="form-group">
+                   <label for="">Nama</label>
+                   <input type="text" wire:model="nama" class="form-control" readonly>
+                   <div class="text-danger">
+                       @error('nis')
+                           {{$message}}
+                       @enderror
+                   </div>
+                 </div>
+               </div>
                 <div class="form-group">
                   <label for="">Bulan</label>
                   <select wire:model="bulan" class="form-control">
@@ -330,13 +341,28 @@
                   </div>
                 </div>
                 <div class="form-group">
-                    <label for="">SPP</label>
-                    <select class="form-control" wire:model="switch">
+                    <div class="row mt-2">
+                      <div class="col">
+                        <label for="">Uang SPP</label>
+                        <input type="number" class="form-control"  wire:model='spp'>
+                        <div class="text-danger">
+                          @error('spp')
+                              {{$message}}
+                          @enderror
+                       </div>
+                      </div>
+                      <div class="col">
+                        <label for="">Makan</label>
+                        <input type="number" class="form-control" wire:model='makan'>
+                      </div>
+                    </div>
+                    <div >Total : Rp. {{number_format((int)$spp+(int)$makan)}}</div>
+                   <!-- <select class="form-control" wire:model="switch">
                         <option value="">Pilih Biaya SPP</option>
                         <option value="o">Otomatis</option>
                         <option value="m">Manual</option>
                     </select>
-                    @if ($switch == 'o')
+                     @if ($switch == 'o')
                     <div class="row mt-2">
                       <div class="col">
                         <label for="">Uang SPP</label>
@@ -366,7 +392,7 @@
                     </div>
 
                     
-                    @endif
+                    @endif -->
                     <div class="text-danger">
                         @error('switch')
                             {{$message}}
@@ -381,7 +407,9 @@
                               {{$message}}
                           @enderror
                        </div>
+                       <div>Rp. {{number_format((int)$subsidi)}}</div>
                   </div>
+                  
               </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -462,8 +490,8 @@
                </div>
                <div class="col">
                  <div class="form-group">
-                   <label for="">SPP</label>
-                   <input type="text" value="{{$status == 'fd' ? 700000 : 875000}}" class="form-control" readonly>
+                   <label for="">Status</label>
+                   <input type="text" value="{{$status == 'fd' ? 'Fullday' : 'Boarding'}}" class="form-control" readonly>
                  </div>
                </div>
               </div>

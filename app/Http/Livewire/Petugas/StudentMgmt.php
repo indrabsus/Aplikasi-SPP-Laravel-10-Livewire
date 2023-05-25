@@ -7,8 +7,10 @@ use App\Models\Payment;
 use App\Models\Request;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Http\Controllers\Controller;
 
 class StudentMgmt extends Component
 {
@@ -112,12 +114,14 @@ class StudentMgmt extends Component
         $data = DB::table('students')->where('nis', $id)->first();
         $this->nis = $data->nis;
         $this->status = $data->status;
+        $this->nama = $data->nama;
     }
     public function bayar(){
+        $con = new Controller;
+        $konfig = $con->cons();
         $this->validate([
                 'bulan' => 'required',
                 'tahun' => 'required',
-                'switch' => 'required',
         ]);
         $hitung = Payment::where('nis', $this->nis)
         ->where('bulan', $this->bulan)
@@ -125,63 +129,84 @@ class StudentMgmt extends Component
         ->count();
 
         if($hitung<1){
-            if($this->switch == 'm'){
-                $this->validate([
-                    'spp' => 'required'
-                ]);
-                if($this->status == 'fd'){
-                    $data = [
-                        'nis' => $this->nis,
-                        'bulan' => $this->bulan,
-                        'tahun' => $this->tahun,
-                        'spp' => $this->spp,
-                        'makan' => 200000,
-                        'subsidi' => $this->subsidi == null ? 0 : $this->subsidi,
-                        'total' => $this->spp + 200000 - $this->subsidi
-                     ];
-                } elseif($this->status == 'bs'){
-                    $data = [
-                        'nis' => $this->nis,
-                        'bulan' => $this->bulan,
-                        'tahun' => $this->tahun,
-                        'spp' => $this->spp,
-                        'makan' => 375000,
-                        'subsidi' => $this->subsidi == null ? 0 : $this->subsidi,
-                        'total' => $this->spp + 375000 - $this->subsidi
-                     ];
-                }
-            } elseif($this->switch == 'o'){
-                if($this->status == 'fd'){
-                    $data = [
-                        'nis' => $this->nis,
-                        'bulan' => $this->bulan,
-                        'tahun' => $this->tahun,
-                        'spp' => 500000,
-                        'makan' => 200000,
-                        'subsidi' => $this->subsidi == null ? 0 : $this->subsidi,
-                        'total' => 700000 - $this->subsidi
-                     ];
-                } elseif($this->status == 'bs'){
-                    $data = [
-                        'nis' => $this->nis,
-                        'bulan' => $this->bulan,
-                        'tahun' => $this->tahun,
-                        'spp' => 500000,
-                        'makan' => 375000,
-                        'subsidi' => $this->subsidi == null ? 0 : $this->subsidi,
-                        'total' => 875000 - $this->subsidi
-                     ];
-                }
-            }
-             
+            $data = [
+                'nis' => $this->nis,
+                'bulan' => $this->bulan,
+                'tahun' => $this->tahun,
+                'spp' => $this->spp,
+                'makan' => $this->makan,
+                'subsidi' => $this->subsidi == null ? 0 : $this->subsidi,
+                'total' => $this->spp + $this->makan - $this->subsidi
+             ];
+             $text = "Siswa atas nama ".$this->nama.", dengan NIS: ".$this->nis.", sudah membayar SPP Bulan ".$this->bulan." ".$this->tahun." Subsidi Rp.".number_format($this->subsidi).", Total pembayaran Rp.".number_format($this->spp + $this->makan - $this->subsidi);
+             Http::get('https://api.telegram.org/bot'.$konfig['token'].'/sendMessage?chat_id='.$konfig['chatid'].'&text='.$text);
             Payment::create($data);
             $this->clearForm();
             session()->flash('sukses', 'Data berhasil ditambahkan');
             $this->dispatchBrowserEvent('closeModal');
         } else {
-            session()->flash('gagal', 'Data berhasil sudah ada');
+            session()->flash('gagal', 'Data sudah ada');
             $this->dispatchBrowserEvent('closeModal');
         }
+
+        // if($hitung<1){
+        //     if($this->switch == 'm'){
+        //         $this->validate([
+        //             'spp' => 'required'
+        //         ]);
+        //         if($this->status == 'fd'){
+        //             $data = [
+        //                 'nis' => $this->nis,
+        //                 'bulan' => $this->bulan,
+        //                 'tahun' => $this->tahun,
+        //                 'spp' => $this->spp,
+        //                 'makan' => 200000,
+        //                 'subsidi' => $this->subsidi == null ? 0 : $this->subsidi,
+        //                 'total' => $this->spp + 200000 - $this->subsidi
+        //              ];
+        //         } elseif($this->status == 'bs'){
+        //             $data = [
+        //                 'nis' => $this->nis,
+        //                 'bulan' => $this->bulan,
+        //                 'tahun' => $this->tahun,
+        //                 'spp' => $this->spp,
+        //                 'makan' => 375000,
+        //                 'subsidi' => $this->subsidi == null ? 0 : $this->subsidi,
+        //                 'total' => $this->spp + 375000 - $this->subsidi
+        //              ];
+        //         }
+        //     } elseif($this->switch == 'o'){
+        //         if($this->status == 'fd'){
+        //             $data = [
+        //                 'nis' => $this->nis,
+        //                 'bulan' => $this->bulan,
+        //                 'tahun' => $this->tahun,
+        //                 'spp' => 500000,
+        //                 'makan' => 200000,
+        //                 'subsidi' => $this->subsidi == null ? 0 : $this->subsidi,
+        //                 'total' => 700000 - $this->subsidi
+        //              ];
+        //         } elseif($this->status == 'bs'){
+        //             $data = [
+        //                 'nis' => $this->nis,
+        //                 'bulan' => $this->bulan,
+        //                 'tahun' => $this->tahun,
+        //                 'spp' => 500000,
+        //                 'makan' => 375000,
+        //                 'subsidi' => $this->subsidi == null ? 0 : $this->subsidi,
+        //                 'total' => 875000 - $this->subsidi
+        //              ];
+        //         }
+        //     }
+             
+        //     Payment::create($data);
+        //     $this->clearForm();
+        //     session()->flash('sukses', 'Data berhasil ditambahkan');
+        //     $this->dispatchBrowserEvent('closeModal');
+        // } else {
+        //     session()->flash('gagal', 'Data berhasil sudah ada');
+        //     $this->dispatchBrowserEvent('closeModal');
+        // }
 
         
     }
@@ -216,10 +241,10 @@ class StudentMgmt extends Component
             'nis' => $this->nis,
             'bulan' => $this->bulan,
             'tahun' => $this->tahun,
-            'makan' => $this->status == 'bs' ? 375000 : 200000,
-            'spp' => 500000,
+            'makan' => 0,
+            'spp' => 0,
             'subsidi' => $this->subsidi,
-            'total' => ($this->status == 'bs' ? 875000 : 700000) - $this->subsidi,
+            'total' => 0 - $this->subsidi,
             'acc' => 'n'
         ];
         $bayar = Payment::create($data1);

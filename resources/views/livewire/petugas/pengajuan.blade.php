@@ -69,7 +69,10 @@
                 @endif</td>
                 <td>{{date('d/m/y', strtotime($d->tgl_pengajuan))}}</td>
                 @if (Auth::user()->level == 'admin' || Auth::user()->level == 'petugas')
-                <td><a class="btn btn-success btn-sm mb-1" data-toggle="modal" data-target="#k_acc" wire:click="k_acc({{ $d->id_bayar }})"><i class="fa fa-check"></i></a>
+                <td>@if($d->acc == 'n')
+                  <a class="btn btn-success btn-sm mb-1" data-toggle="modal" data-target="#k_acc" wire:click="k_acc({{ $d->id_bayar }})"><i class="fa fa-check"></i></a>  
+                
+                @endif
                   <a class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#k_hapus" wire:click="k_hapus({{ $d->id_bayar }})"><i class="fa fa-trash"></i></a>
               </td>  
                 @endif
@@ -189,6 +192,25 @@
                       </div>
                     </div>
                     <div class="row">
+               <div class="col">
+                 <div class="form-group">
+                   <label for="">Nama</label>
+                   <input type="text" wire:model="nama" class="form-control" readonly>
+                   <div class="text-danger">
+                       @error('nis')
+                           {{$message}}
+                       @enderror
+                   </div>
+                 </div>
+               </div>
+               <div class="col">
+                 <div class="form-group">
+                   <label for="">Status</label>
+                   <input type="text" value="{{$status == 'fd' ? 'Fullday' : 'Boarding'}}" class="form-control" readonly>
+                 </div>
+               </div>
+              </div>
+                    <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="">Bulan</label>
@@ -234,6 +256,24 @@
                               </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                    <label for="">Uang SPP</label>
+                    <input type="number" class="form-control" placeholder="Isi Manual" wire:model='spp'>
+                    <div class="text-danger">
+                      @error('spp')
+                          {{$message}}
+                      @enderror
+                   </div>
+                </div>
+                <div class="form-group">
+                    <label for="">Makan</label>
+                    <input type="number" class="form-control" wire:model='makan'>
+                    <div class="text-danger">
+                      @error('makan')
+                          {{$message}}
+                      @enderror
+                   </div>
+                </div>
                     <div class="form-group">
                         <label for="">Subsidi</label>
                         <input type="number" wire:model="subsidi" class="form-control">
