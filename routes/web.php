@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Excel;
 use App\Http\Controllers\FrontController;
 use App\Http\Livewire\Admin\Index;
 use App\Http\Livewire\Admin\UserMgmt;
@@ -11,6 +12,7 @@ use App\Http\Livewire\Petugas\StudentMgmt;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('/alldata/{bln?}',[Excel::class,'allData'])->name('allData');
 Route::get('/login',[AuthController::class,'index'])->name('index');
 Route::get('/',[FrontController::class,'cek'])->name('cek');
 Route::any('/ceknis',[FrontController::class,'ceknis'])->name('ceknis');

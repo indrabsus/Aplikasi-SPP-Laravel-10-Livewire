@@ -75,10 +75,19 @@
                   </div>
             </div>
     </div>
-    <table class="table table-striped">
+    <div class="row mb-1">
+      <div class="col-lg-3">
+        <input type="text" placeholder="2023-03" wire:model="dateprint" class="form-control">
+      </div>
+      <div class="col-lg-">
+        <a href="{{route('allData', ['bln' => $dateprint])}}" class="btn btn-primary">Print</a>
+      </div>
+    </div>
+    <table class="table table-sm table-bordered table-responsive-md">
         <tr>
             <th>Nis</th>
             <th>Nama</th>
+            <th>Kelas</th>
             <th>Bulan</th>
             <th>Makan</th>
             <th>SPP</th>
@@ -95,6 +104,7 @@
             <tr>
                 <td>{{ $d->nis++ }}</td>
                 <td>{{ $d->nama }}</td>
+                <td>{{$d->nama_kelas}}</td>
                 <td>{{ $d->bulan }} {{ $d->tahun }}</td>
                 <td>Rp. {{ number_format($d->makan) }}</td>
                 <td>Rp. {{ number_format($d->spp) }}</td>

@@ -36,13 +36,15 @@
             </div>
         </div>
     </div>
-    <table class="table table-striped">
+    <table class="table table-responsive-sm table-bordered">
         <tr>
             <th>No</th>
             <th>NIS</th>
             <th>Nama Lengkap</th>
             <th>Kelas</th>
             <th>Status</th>
+            <th>No Va</th>
+            <th>Tgl Lahir</th>
             @if(Auth::user()->level == 'admin' || Auth::user()->level == 'petugas')
             <th>Wa Ortu</th>
             @endif
@@ -56,6 +58,8 @@
                 <td>{{ $d->nama }}</td>
                 <td>{{ $d->nama_kelas }}</td>
                 <td>{{ $d->status == 'bs' ? 'Boarding' : 'Fullday' }}</td>
+                <td>{{$d->no_va}}</td>
+                <td>{{$d->tgl_lahir}}</td>
                 @if(Auth::user()->level == 'admin' || Auth::user()->level == 'petugas')
                 <td><a href="https://api.whatsapp.com/send?phone=62{{ substr($d->wa_ortu, 1) }}" class="btn btn-success btn-sm" target="_blank"><i class="fa fa-whatsapp"></i> Whatsapp</a></td>
                 @endif
@@ -139,6 +143,24 @@
                     @enderror
                 </div>
               </div>
+              <div class="form-group">
+                <label for="">No Va</label>
+                <input type="number" wire:model="no_va" class="form-control">
+                <div class="text-danger">
+                    @error('no_va')
+                        {{$message}}
+                    @enderror
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="">Tanggal Lahir</label>
+                <input type="number" wire:model="tgl_lahir" class="form-control" placeholder="031120">
+                <div class="text-danger">
+                    @error('tgl_lahir')
+                        {{$message}}
+                    @enderror
+                </div>
+              </div>
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -216,6 +238,24 @@
                         @enderror
                     </div>
                   </div>
+                  <div class="form-group">
+                <label for="">No Va</label>
+                <input type="number" wire:model="no_va" class="form-control">
+                <div class="text-danger">
+                    @error('no_va')
+                        {{$message}}
+                    @enderror
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="">Tanggal Lahir</label>
+                <input type="number" wire:model="tgl_lahir" class="form-control" placeholder="031120">
+                <div class="text-danger">
+                    @error('tgl_lahir')
+                        {{$message}}
+                    @enderror
+                </div>
+              </div>
               </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

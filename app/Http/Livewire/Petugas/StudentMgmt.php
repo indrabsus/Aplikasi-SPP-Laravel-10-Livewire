@@ -14,7 +14,7 @@ use App\Http\Controllers\Controller;
 
 class StudentMgmt extends Component
 {
-    public $nama, $status, $id_kelas, $wa_ortu, $nis, $bulan, 
+    public $nama, $status, $id_kelas, $wa_ortu, $nis, $bulan, $no_va, $tgl_lahir,
     $tahun, $makan, $spp, $subsidi, $total, $switch, $kelompok, $ortu;
     public $data2;
     use WithPagination;
@@ -42,6 +42,8 @@ class StudentMgmt extends Component
         $this->tahun = '';
         $this->spp = '';
         $this->subsidi = '';
+        $this->no_va = '';
+        $this->tgl_lahir = '';
     }
     public function insert(){
         $this->validate([
@@ -50,6 +52,8 @@ class StudentMgmt extends Component
             'status' => 'required',
             'id_kelas' => 'required',
             'wa_ortu' => 'required',
+            'no_va' => 'required',
+            'tgl_lahir' => 'required',
         ],[
             'nama.required' => 'Nama tidak boleh kosong!',
             'nis.required' => 'NIS tidak boleh kosong!',
@@ -57,6 +61,8 @@ class StudentMgmt extends Component
             'status.required' => 'Status tidak boleh kosong!',
             'id_kelas.required' => 'Kelas tidak boleh kosong!',
             'wa_ortu.required' => 'Wa Orang Tua tidak boleh kosong!',
+            'no_va.required' => 'No Va tidak boleh kosong!',
+            'tgl_lahir.required' => 'Tgl Lahir tidak boleh kosong!',
         ]);
         Student::create([
             'nis' => $this->nis,
@@ -64,6 +70,8 @@ class StudentMgmt extends Component
             'status' => $this->status,
             'id_kelas' => $this->id_kelas,
             'wa_ortu' => $this->wa_ortu,
+            'no_va' => $this->no_va,
+            'tgl_lahir' => $this->tgl_lahir,
         ]);
         $this->clearForm();
         session()->flash('sukses', 'Data berhasil ditambahkan');
@@ -78,6 +86,8 @@ class StudentMgmt extends Component
         $this->status = $data->status;
         $this->wa_ortu = $data->wa_ortu;
         $this->id_kelas = $data->id_kelas;
+        $this->no_va = $data->no_va;
+        $this->tgl_lahir = $data->tgl_lahir;
     }
     public function update(){
         $this->validate([
@@ -85,7 +95,9 @@ class StudentMgmt extends Component
             'nama' => 'required',
             'status' => 'required',
             'wa_ortu' => 'required',
-            'id_kelas' => 'required'
+            'id_kelas' => 'required',
+            'no_va' => 'required',
+            'tgl_lahir' => 'required',
         ]);
         Student::where('nis', $this->nis)->update([
             'nis' => $this->nis,
@@ -93,6 +105,8 @@ class StudentMgmt extends Component
             'status' => $this->status,
             'id_kelas' => $this->id_kelas,
             'wa_ortu' => $this->wa_ortu,
+            'no_va' => $this->no_va,
+            'tgl_lahir' => $this->tgl_lahir,
         ]);
         $this->clearForm();
         session()->flash('sukses', 'Data berhasil diedit');

@@ -53,6 +53,7 @@
 
       <form action="{{ route('ceknis') }}" method="post">
         @csrf
+        <div class="form-group">
         <label for="">Cek Pembayaran</label>
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Masukan NIS" name="nis">
@@ -61,6 +62,18 @@
               <span class="fas fa-user"></span>
             </div>
           </div>
+        </div>
+        </div>
+        <div class="form-group">
+        <label for="">Tanggal lahir (Format: 021120)</label>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Masukan Tanggal Lahir" name="tgl_lahir">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
         </div>
         <div class="row justify-content-center">
 

@@ -53,6 +53,11 @@
             <td>:</td>
             <td>{{$detail->status == 'bs' ? 'Boarding' : 'Fullday'}}</td>
         </tr>
+        <tr>
+            <td>No Va</td>
+            <td>:</td>
+            <td>{{$detail->no_va}}</td>
+        </tr>
     </table>
     <label for="">3 Pembayaran Terakhir</label>
         <table class="table table-sm table-striped table-bordered mb-3">

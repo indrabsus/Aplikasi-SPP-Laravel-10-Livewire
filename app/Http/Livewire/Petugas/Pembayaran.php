@@ -20,11 +20,13 @@ class Pembayaran extends Component
     public $caribulan = '';
     public $caritgl = '';
     public $caritahun = '';
+    public $dateprint = "";
     protected $paginationTheme = 'bootstrap';
     public function render()
     {
         $data = DB::table('payments')
         ->leftJoin('students','students.nis','payments.nis')
+        ->leftJoin('groups','groups.id_kelas','students.id_kelas')
         ->where('nama', 'like','%'.$this->cari.'%')
         ->where('payments.nis', 'like','%'.$this->carinis.'%')
         ->where('payments.acc', 'like','%'.$this->acc2.'%')
@@ -32,6 +34,7 @@ class Pembayaran extends Component
         ->where('payments.tahun', 'like','%'.$this->caritahun.'%')
         ->where('payments.created_at', 'like','%'.$this->caritgl.'%')
         ->orderBy('id_bayar', 'desc')
+        ->select('payments.nis','nama','bulan','tahun','makan','spp','total','acc','payments.created_at','subsidi','id_bayar','nama_kelas')
         ->paginate($this->result);
         return view('livewire.petugas.pembayaran', compact('data'))
         ->extends('layouts.app')

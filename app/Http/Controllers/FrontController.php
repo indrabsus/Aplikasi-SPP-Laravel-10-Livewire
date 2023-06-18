@@ -12,7 +12,7 @@ class FrontController extends Controller
         return view('cek');
     }
     public function ceknis(Request $request){
-        $detail = Student::where('nis', $request->nis)->first();
+        $detail = Student::where(['nis' => $request->nis,'tgl_lahir' => $request->tgl_lahir])->first();
         $data = Payment::where('nis', $request->nis)
         ->where('acc','y')
         ->orderBy('id_bayar', 'desc')
